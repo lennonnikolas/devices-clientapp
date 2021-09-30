@@ -1,10 +1,10 @@
-import './css/App.css';
+import React from 'react';
+import Dashboard from './containers/Dashboard';
 
-function App() {
+const App = () => {
   return (
-    <div className="App">
-    </div>
+    <Dashboard />
   );
-}
+};
 
 export default App;
