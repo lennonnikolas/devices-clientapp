@@ -6,7 +6,6 @@ export const useInputHook = (initialValues) => {
   return {
     values,
     handleChange: (e) => {
-      console.log('e', e);
       setValues({
         ...values,
         [e.target.name]: e.target.value
