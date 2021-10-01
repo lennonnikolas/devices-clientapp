@@ -23,15 +23,15 @@ describe('Card component', () => {
     });
 
     it('Then the card displays a title', () => {
-      expect(component.getByText('Title')).toBeInTheDocument();
+      expect(component.getByText('System Name: Title')).toBeInTheDocument();
     });
 
     it('Then the card displays a subtitle', () => {
-      expect(component.getByText('SubTitle')).toBeInTheDocument();
+      expect(component.getByText('System Type: SubTitle')).toBeInTheDocument();
     });
 
     it('Then the card displays metaData', () => {
-      expect(component.getByText('MetaData')).toBeInTheDocument();
+      expect(component.getByText('System Size: MetaData GB')).toBeInTheDocument();
     });
   });
 });

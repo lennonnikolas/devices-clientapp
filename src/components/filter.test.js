@@ -22,7 +22,7 @@ describe('Filter component', () => {
             handleSelect={props.handleSelect}
           />
       );
-      selectElement = component.getByTestId('select-element');
+      selectElement = component.getByTestId('filter-select-element');
       dropdownOptions = selectElement.options;
     });
 
