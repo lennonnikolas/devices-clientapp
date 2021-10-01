@@ -33,6 +33,21 @@ const serverInformationReducer = (state, action) => {
         filteredServerInformation: action.data
       };
     }
+    case SERVER_INFORMATION_ACTIONS.DELETE: {
+      return {
+        ...state,
+        serverInformation: action.data.serverInformationState,
+        filteredServerInformation: action.data.serverInformationState
+      };
+    }
+    case SERVER_INFORMATION_ACTIONS.ADD: {
+      console.log('action', action);
+      return {
+        ...state,
+        serverInformation: [...state.serverInformation, action.data],
+        filteredServerInformation: [...state.serverInformation, action.data]
+      };
+    }
     default:
       return state;
   }

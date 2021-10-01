@@ -1,9 +1,9 @@
 import React from 'react';
-import Dashboard from './containers/Dashboard';
+import DashboardProvider from './providers/DashboardProvider';
 
 const App = () => {
   return (
-    <Dashboard />
+    <DashboardProvider />
   );
 };
 

@@ -8,4 +8,10 @@
   margin-bottom: 2em;
   flex-wrap: wrap;
   padding: 25px 12px 18px;
+}
+
+.card-action-content {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 1em;
 };

@@ -1,4 +1,5 @@
-import React, {useState, useEffect, useReducer} from 'react';
+/* eslint-disable max-len */
+import React, {useState, useEffect} from 'react';
 
 import Card from '../components/card';
 import Header from '../components/header';
@@ -6,36 +7,31 @@ import Body from '../components/body';
 import Filter from '../components/filter';
 import Sort from '../components/sort';
 
-import serverInformationReducer from '../reducers/serverInformationReducer';
-
-import {SERVER_INFORMATION_ACTIONS} from '../actions';
+import {MODAL_ACTIONS, SERVER_INFORMATION_ACTIONS} from '../actions';
 import {SORT_OPTIONS} from '../constants';
 
 import '../css/dashboard.css';
-
-const initialState = {
-  serverInformation: [],
-  filterDropdownOptions: [],
-  filteredServerInformation: [],
-  loading: false,
-  error: null
-};
+import {useDashboardContext} from '../contexts/DashboardContext';
 
 const Dashboard = () => {
-  const [state, dispatch] = useReducer(serverInformationReducer, initialState);
-  const [currentFilterDropdownValue, setFilterDropdownValue] = useState('');
-  const [currentSortDropdownValue, setSortDropdownValue] = useState('');
+  const {
+    serverInformationState,
+    serverInformationDispatch,
+    modalDispatch
+  } = useDashboardContext();
 
   const {
     serverInformation,
     loading,
     filterDropdownOptions,
     filteredServerInformation
-  } = state;
+  } = serverInformationState;
 
+  const [currentFilterDropdownValue, setFilterDropdownValue] = useState('');
+  const [currentSortDropdownValue, setSortDropdownValue] = useState('');
 
   useEffect(() => {
-    dispatch({type: SERVER_INFORMATION_ACTIONS.CALL_API});
+    serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.CALL_API});
     fetch('http://localhost:3000/devices')
         .then((response) => {
           if (response.ok) {
@@ -44,12 +40,12 @@ const Dashboard = () => {
           throw response;
         })
         .then((data) => {
-          dispatch({type: SERVER_INFORMATION_ACTIONS.SUCCESS, data: data});
+          serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.SUCCESS, data: data});
         })
         .catch((error) => {
-          dispatch({type: SERVER_INFORMATION_ACTIONS.ERROR, error: error});
+          serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.ERROR, error: error});
         });
-  }, []);
+  }, [serverInformationDispatch]);
 
   const handleSelect = (event) => {
     const dropdownValue = event.target.value;
@@ -60,7 +56,7 @@ const Dashboard = () => {
           (serverInfo) => serverInfo.type === dropdownValue) :
       serverInformation;
 
-    dispatch({type: SERVER_INFORMATION_ACTIONS.UPDATE, data: newData});
+    serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.UPDATE, data: newData});
   };
 
   const handleSort = (event) => {
@@ -90,6 +86,11 @@ const Dashboard = () => {
     }
   };
 
+  const handleCardButtonClick = (event, cardData, modalType) => {
+    event.preventDefault();
+    modalDispatch({type: MODAL_ACTIONS.SHOW_MODAL, data: {modalData: cardData, modalType: modalType}});
+  };
+
   return (
     <div className='container'>
       <Header>Server Information Dashboard</Header>
@@ -106,6 +107,7 @@ const Dashboard = () => {
           options={[SORT_OPTIONS.HDD_CAPACITY, SORT_OPTIONS.SYSTEM_NAME]}
           currentValue={currentSortDropdownValue}
         />
+        <button onClick={(event) => handleCardButtonClick(event, null, 'Add')}>Add Server</button>
       </div>
       <Body>
         {
@@ -115,9 +117,11 @@ const Dashboard = () => {
               <Card
                 key={serverInfo.id}
                 id={serverInfo.id}
-                title={`System name: ${serverInfo.system_name}`}
-                subTitle={`System type: ${serverInfo.type}`}
-                metaData={`Size: ${serverInfo.hdd_capacity} GB`}
+                title={serverInfo.system_name}
+                subTitle={serverInfo.type}
+                metaData={serverInfo.hdd_capacity}
+                onDelete={handleCardButtonClick}
+                onUpdate={handleCardButtonClick}
               />)
         }
       </Body>
