@@ -4,16 +4,18 @@ import Card from '../components/card';
 import Header from '../components/header';
 import Body from '../components/body';
 import Filter from '../components/filter';
+import Sort from '../components/sort';
 
 import serverInformationReducer from '../reducers/serverInformationReducer';
 
 import {SERVER_INFORMATION_ACTIONS} from '../actions';
+import {SORT_OPTIONS} from '../constants';
 
 import '../css/dashboard.css';
 
 const initialState = {
   serverInformation: [],
-  dropdownOptions: [],
+  filterDropdownOptions: [],
   filteredServerInformation: [],
   loading: false,
   error: null
@@ -21,12 +23,13 @@ const initialState = {
 
 const Dashboard = () => {
   const [state, dispatch] = useReducer(serverInformationReducer, initialState);
-  const [currentDropdownValue, setCurrentDropdownValue] = useState('');
+  const [currentFilterDropdownValue, setFilterDropdownValue] = useState('');
+  const [currentSortDropdownValue, setSortDropdownValue] = useState('');
 
   const {
     serverInformation,
     loading,
-    dropdownOptions,
+    filterDropdownOptions,
     filteredServerInformation
   } = state;
 
@@ -50,7 +53,7 @@ const Dashboard = () => {
 
   const handleSelect = (event) => {
     const dropdownValue = event.target.value;
-    setCurrentDropdownValue(dropdownValue);
+    setFilterDropdownValue(dropdownValue);
 
     const newData = dropdownValue !== '' ?
       serverInformation.filter(
@@ -60,6 +63,33 @@ const Dashboard = () => {
     dispatch({type: SERVER_INFORMATION_ACTIONS.UPDATE, data: newData});
   };
 
+  const handleSort = (event) => {
+    const dropdownValue = event.target.value;
+    setSortDropdownValue(dropdownValue);
+
+    if (dropdownValue === SORT_OPTIONS.SYSTEM_NAME) {
+      serverInformation.sort((firstInfo, secondInfo) => {
+        const firstSystemName = firstInfo.system_name.toLowerCase();
+        const secondSystemName = secondInfo.system_name.toLowerCase();
+
+        if (firstSystemName < secondSystemName) {
+          return -1;
+        } else if (firstSystemName > secondSystemName) {
+          return 1;
+        } else {
+          return 0;
+        }
+      });
+    }
+
+    if (dropdownValue === SORT_OPTIONS.HDD_CAPACITY) {
+      serverInformation.sort(
+          (firstInfo, secondInfo) =>
+            firstInfo.hdd_capacity - secondInfo.hdd_capacity
+      );
+    }
+  };
+
   return (
     <div className='container'>
       <Header>Server Information Dashboard</Header>
@@ -67,8 +97,14 @@ const Dashboard = () => {
         <Filter
           handleSelect={handleSelect}
           defaultOption='Search by System Type'
-          options={dropdownOptions}
-          currentValue={currentDropdownValue}
+          options={filterDropdownOptions}
+          currentValue={currentFilterDropdownValue}
+        />
+        <Sort
+          handleSort={handleSort}
+          defaultOption='Sort by System Type'
+          options={[SORT_OPTIONS.HDD_CAPACITY, SORT_OPTIONS.SYSTEM_NAME]}
+          currentValue={currentSortDropdownValue}
         />
       </div>
       <Body>

@@ -1,13 +1,12 @@
-/* eslint-disable react/prop-types */
 import React from 'react';
 
-const Filter = ({defaultOption, options, currentValue, handleSelect}) => {
+const Sort = ({defaultOption, options, currentValue, handleSort}) => {
   return (
     <div>
       <select
-        data-testid='filter-select-element'
+        data-testid='sort-select-element'
         value={currentValue}
-        onChange={handleSelect}
+        onChange={handleSort}
       >
         <option value=''>{defaultOption}</option>
         {options.map((option) => {
@@ -20,4 +19,4 @@ const Filter = ({defaultOption, options, currentValue, handleSelect}) => {
   );
 };
 
-export default Filter;
+export default Sort;

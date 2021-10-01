@@ -14,7 +14,7 @@ const serverInformationReducer = (state, action) => {
         loading: false,
         serverInformation: action.data,
         filteredServerInformation: action.data,
-        dropdownOptions: [
+        filterDropdownOptions: [
           ...new Set(action.data.map((serverInfo) => serverInfo.type))
         ]
       };
@@ -26,6 +26,7 @@ const serverInformationReducer = (state, action) => {
         error: action.error
       };
     }
+    case SERVER_INFORMATION_ACTIONS.SORT:
     case SERVER_INFORMATION_ACTIONS.UPDATE: {
       return {
         ...state,
