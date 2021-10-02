@@ -10,6 +10,7 @@
 
 ### Starting the project
 - Open a bash terminal and navigate to the root directory of the UI application.
+- run `npm i` to install all peoject dependencies.
 - run `npm start` in the bash terminal.
 
 This should bring up the application displaying server information mock data from the backend.
