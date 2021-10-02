@@ -10,7 +10,7 @@
 
 ### Starting the project
 - Open a bash terminal and navigate to the root directory of the UI application.
-- run `npm i` to install all peoject dependencies.
+- run `npm i` to install all project dependencies.
 - run `npm start` in the bash terminal.
 
 This should bring up the application displaying server information mock data from the backend.
@@ -21,6 +21,7 @@ This should bring up the application displaying server information mock data fro
 ## Starting the backend
 ### Starting the project
 - Open a bash terminal and navigate to the root directory of the backend application.
+- run `npm i` to install all project dependencies. 
 - run `npm start` in the bash terminal.
 
 You should see in the bash terminal that the application is listening on port 3000. 
