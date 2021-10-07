@@ -5,13 +5,14 @@ import React, {useState} from 'react';
 import {MODAL_ACTIONS, SERVER_INFORMATION_ACTIONS} from '../actions';
 import {useDashboardContext} from '../contexts/DashboardContext';
 import {useInputHook} from '../hooks/useInputHook';
-import {trimMetaData} from '../utils';
+import {trimMetaData, blockInvalidChar} from '../utils';
 import {SYSTEM_NAMES} from '../constants';
 
 import '../css/modal.css';
 
 const UpdateModal = ({modalData, onClose}) => {
   const [currentDropdownValue, setDropdownValue] = useState(modalData.subTitle);
+  const [errors, setErrors] = useState({name: '', message: ''});
 
   const {values, handleChange} = useInputHook(
       {
@@ -50,6 +51,21 @@ const UpdateModal = ({modalData, onClose}) => {
       hdd_capacity: trimMetaData(values.metadata)
     };
 
+    if (newUpdateData.system_name === '') {
+      setErrors({name: 'title', message: 'Title cannot be empty'});
+      return;
+    }
+
+    if (newUpdateData.type === '') {
+      setErrors({name: 'type', message: 'System type cannot be empty'});
+      return;
+    }
+
+    if (newUpdateData.hdd_capacity === '') {
+      setErrors({name: 'hdd_capacity', message: 'HDD capacity cannot be empty'});
+      return;
+    }
+
     fetch(`http://localhost:3000/devices/${modalData.id}`,
         {
           method: 'PUT',
@@ -70,6 +86,7 @@ const UpdateModal = ({modalData, onClose}) => {
         <div className='modal-title-input-area'>
           <div>System Name: </div>
           <input type='text' name='title' value={values.title} onChange={handleChange} />
+          {errors.name === 'title' ? <span>{errors.message}</span> : null}
         </div>
         <div className='modal-subtitle-input-area'>
           <div>System Type: </div>
@@ -85,10 +102,12 @@ const UpdateModal = ({modalData, onClose}) => {
               );
             })}
           </select>
+          {errors.name === 'type' ? <span>{errors.message}</span>: null}
         </div>
         <div className='modal-metadata-input-area'>
           <div>System HDD : </div>
-          <input type='text' name='metadata' value={values.metadata} onChange={handleChange} />
+          <input required type='number' min='0' name='metadata' onKeyDown={blockInvalidChar} value={values.metadata} onChange={handleChange} />
+          {errors.name === 'hdd_capacity' ? <span>{errors.message}</span> : null}
         </div>
       </div>
       <button type='button' onClick={updateCard}>

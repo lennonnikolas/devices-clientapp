@@ -87,7 +87,6 @@ const Dashboard = () => {
   };
 
   const handleCardButtonClick = (event, cardData, modalType) => {
-    event.preventDefault();
     modalDispatch({type: MODAL_ACTIONS.SHOW_MODAL, data: {modalData: cardData, modalType: modalType}});
   };
 

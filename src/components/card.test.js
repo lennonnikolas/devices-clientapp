@@ -31,7 +31,8 @@ describe('Card component', () => {
     });
 
     it('Then the card displays metaData', () => {
-      expect(component.getByText('System Size: MetaData GB')).toBeInTheDocument();
+      expect(
+          component.getByText('System Size: MetaData GB')).toBeInTheDocument();
     });
   });
 });

@@ -20,8 +20,11 @@ const modalInitialState = {
 };
 
 const DashboardProvider = () => {
-  const [serverInformationState, serverInformationDispatch] = useReducer(serverInformationReducer, serverInformationInitialState);
-  const [modalState, modalDispatch] = useReducer(modalReducer, modalInitialState);
+  const [serverInformationState, serverInformationDispatch] = useReducer(
+      serverInformationReducer, serverInformationInitialState);
+
+  const [modalState, modalDispatch] = useReducer(
+      modalReducer, modalInitialState);
 
   const providerState = {
     serverInformationState,

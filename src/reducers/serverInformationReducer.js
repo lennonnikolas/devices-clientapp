@@ -41,7 +41,6 @@ const serverInformationReducer = (state, action) => {
       };
     }
     case SERVER_INFORMATION_ACTIONS.ADD: {
-      console.log('action', action);
       return {
         ...state,
         serverInformation: [...state.serverInformation, action.data],
