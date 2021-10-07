@@ -65,14 +65,15 @@ const AddModal = ({onClose}) => {
 
   return (
     <section className='modal-main'>
+      <h1>Add System Info</h1>
       <div className='modal-content'>
         <div className='modal-title-input-area'>
-          <div>System Name: </div>
-          <input required type='text' name='title' value={values.title} onChange={handleChange} />
-          {errors.name === 'title' ? <span>{errors.message}</span> : null}
+          <label className='modal-title'>System Name: </label>
+          <input className='modal-input' required type='text' name='title' value={values.title} onChange={handleChange} />
+          {errors.name === 'title' ? <span className='modal-error'>*{errors.message}</span> : null}
         </div>
-        <div className='modal-subtitle-input-area'>
-          <div>System Type: </div>
+        <div className='modal-title-input-area'>
+          <label className='modal-title'>System Type: </label>
           <select
             data-testid='add-select-element'
             value={currentDropdownValue}
@@ -85,20 +86,22 @@ const AddModal = ({onClose}) => {
               );
             })}
           </select>
-          {errors.name === 'type' ? <span>{errors.message}</span>: null}
+          {errors.name === 'type' ? <span className='modal-error'>*{errors.message}</span>: null}
         </div>
-        <div className='modal-metadata-input-area'>
-          <div>System HDD : </div>
-          <input required type='number' min='0' name='metadata' onKeyDown={blockInvalidChar} value={values.metadata} onChange={handleChange} />
-          {errors.name === 'hdd_capacity' ? <span>{errors.message}</span> : null}
+        <div className='modal-title-input-area'>
+          <label className='modal-title'>System HDD: </label>
+          <input className='modal-input' required type='number' min='0' name='metadata' onKeyDown={blockInvalidChar} value={values.metadata} onChange={handleChange} />
+          {errors.name === 'hdd_capacity' ? <span className='modal-error'>*{errors.message}</span> : null}
         </div>
       </div>
-      <button type='button' onClick={addCard}>
-        Add
-      </button>
-      <button type='button' onClick={onClose}>
-        Close
-      </button>
+      <div className='modal-action-area'>
+        <button className='modal-button' type='button' onClick={addCard}>
+          Add
+        </button>
+        <button className='modal-button' type='button' onClick={onClose}>
+          Close
+        </button>
+      </div>
     </section>
   );
 };

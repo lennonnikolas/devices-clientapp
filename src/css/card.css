@@ -1,17 +1,36 @@
-.card-container {
+.card-main {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 33%;
-  border: 2px solid black;
-  margin-left: 2em;
-  margin-bottom: 2em;
-  flex-wrap: wrap;
-  padding: 25px 12px 18px;
+  background: white;
+  width: 45%;
+  height: auto;
+  border-radius: 12px;
+  background-color: white;
+  border: 1px solid #bacdd8;
+  padding: 8px;
 }
 
-.card-action-content {
+.card-text-content {
+  padding: 16px 8px 8px 8px;
+}
+
+.card-action-area {
   display: flex;
   justify-content: flex-end;
   padding-top: 1em;
-};
+}
+
+.card-button {
+  border: none;
+  padding: 12px 24px;
+  border-radius: 50px;
+
+  font-weight: 600;
+  color: #0077ff;
+  background-color: #e0efff;
+
+  margin: 0 auto;
+  display: block;
+
+  cursor: pointer;
+}

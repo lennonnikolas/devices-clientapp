@@ -64,7 +64,7 @@ const Dashboard = () => {
     setSortDropdownValue(dropdownValue);
 
     if (dropdownValue === SORT_OPTIONS.SYSTEM_NAME) {
-      serverInformation.sort((firstInfo, secondInfo) => {
+      filteredServerInformation.sort((firstInfo, secondInfo) => {
         const firstSystemName = firstInfo.system_name.toLowerCase();
         const secondSystemName = secondInfo.system_name.toLowerCase();
 
@@ -79,7 +79,7 @@ const Dashboard = () => {
     }
 
     if (dropdownValue === SORT_OPTIONS.HDD_CAPACITY) {
-      serverInformation.sort(
+      filteredServerInformation.sort(
           (firstInfo, secondInfo) =>
             firstInfo.hdd_capacity - secondInfo.hdd_capacity
       );
@@ -106,7 +106,9 @@ const Dashboard = () => {
           options={[SORT_OPTIONS.HDD_CAPACITY, SORT_OPTIONS.SYSTEM_NAME]}
           currentValue={currentSortDropdownValue}
         />
-        <button onClick={(event) => handleCardButtonClick(event, null, 'Add')}>Add Server</button>
+        <div>
+          <button className='add-server-button' onClick={(event) => handleCardButtonClick(event, null, 'Add')}>Add Server</button>
+        </div>
       </div>
       <Body>
         {

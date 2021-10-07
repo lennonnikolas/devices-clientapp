@@ -25,17 +25,20 @@ const DeleteModal = ({modalData, onClose}) => {
 
   return (
     <section className='modal-main'>
+      <h1>Delete System Info</h1>
       <div className='modal-content'>
         <div>System Name: {modalData?.title}</div>
         <div>System Type: {modalData?.subTitle}</div>
         <div>System HDD : {modalData?.metaData}</div>
       </div>
-      <button type='button' onClick={deleteCard}>
-        Delete
-      </button>
-      <button type='button' onClick={onClose}>
-        Close
-      </button>
+      <div className='modal-action-area'>
+        <button className='modal-button' type='button' onClick={deleteCard}>
+          Delete
+        </button>
+        <button className='modal-button' type='button' onClick={onClose}>
+          Close
+        </button>
+      </div>
     </section>
   );
 };
