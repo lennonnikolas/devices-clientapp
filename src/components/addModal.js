@@ -3,7 +3,7 @@
 import React, {useState} from 'react';
 import {useInputHook} from '../hooks/useInputHook';
 import {useDashboardContext} from '../contexts/DashboardContext';
-import {trimMetaData} from '../utils';
+import {trimMetaData, blockInvalidChar} from '../utils';
 import {MODAL_ACTIONS, SERVER_INFORMATION_ACTIONS} from '../actions';
 import {SYSTEM_NAMES} from '../constants';
 
@@ -11,6 +11,7 @@ import '../css/modal.css';
 
 const AddModal = ({onClose}) => {
   const [currentDropdownValue, setDropdownValue] = useState('');
+  const [errors, setErrors] = useState({name: '', message: ''});
 
   const {values, handleChange} = useInputHook(
       {
@@ -30,6 +31,21 @@ const AddModal = ({onClose}) => {
       type: currentDropdownValue,
       hdd_capacity: trimMetaData(values.metadata)
     };
+
+    if (newUpdateData.system_name === '') {
+      setErrors({name: 'title', message: 'Title cannot be empty'});
+      return;
+    }
+
+    if (newUpdateData.type === '') {
+      setErrors({name: 'type', message: 'System type cannot be empty'});
+      return;
+    }
+
+    if (newUpdateData.hdd_capacity === '') {
+      setErrors({name: 'hdd_capacity', message: 'HDD capacity cannot be empty'});
+      return;
+    }
 
     fetch('http://localhost:3000/devices',
         {
@@ -52,7 +68,8 @@ const AddModal = ({onClose}) => {
       <div className='modal-content'>
         <div className='modal-title-input-area'>
           <div>System Name: </div>
-          <input type='text' name='title' value={values.title} onChange={handleChange} />
+          <input required type='text' name='title' value={values.title} onChange={handleChange} />
+          {errors.name === 'title' ? <span>{errors.message}</span> : null}
         </div>
         <div className='modal-subtitle-input-area'>
           <div>System Type: </div>
@@ -68,10 +85,12 @@ const AddModal = ({onClose}) => {
               );
             })}
           </select>
+          {errors.name === 'type' ? <span>{errors.message}</span>: null}
         </div>
         <div className='modal-metadata-input-area'>
           <div>System HDD : </div>
-          <input type='text' name='metadata' value={values.metadata} onChange={handleChange} />
+          <input required type='number' min='0' name='metadata' onKeyDown={blockInvalidChar} value={values.metadata} onChange={handleChange} />
+          {errors.name === 'hdd_capacity' ? <span>{errors.message}</span> : null}
         </div>
       </div>
       <button type='button' onClick={addCard}>

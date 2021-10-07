@@ -18,8 +18,10 @@ const Card = ({id, title, subTitle, metaData, onDelete, onUpdate}) => {
         <div className='metaData'>System Size: {metaData} GB</div>
       </div>
       <div className='card-action-content'>
-        <button onClick={(event) => onUpdate(event, cardData, 'Update')}>Update</button>
-        <button onClick={(event) => onDelete(event, cardData, 'Delete')}>Delete</button>
+        <button onClick={
+          (event) => onUpdate(event, cardData, 'Update')}>Update</button>
+        <button onClick={
+          (event) => onDelete(event, cardData, 'Delete')}>Delete</button>
       </div>
     </div>
   );
