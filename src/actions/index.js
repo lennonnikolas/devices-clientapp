@@ -4,7 +4,9 @@ export const SERVER_INFORMATION_ACTIONS = {
   ERROR: 'error',
   UPDATE: 'update',
   DELETE: 'delete',
-  ADD: 'add'
+  ADD: 'add',
+  SORT: 'sort',
+  FILTER: 'filter'
 };
 
 export const MODAL_ACTIONS = {

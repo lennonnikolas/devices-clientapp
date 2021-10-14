@@ -3,7 +3,14 @@ import React from 'react';
 
 const Body = (props) => {
   return (
-    <div style={{display: 'flex', flexWrap: 'wrap', justifyContent: 'center'}}>
+    <div style={
+      {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
+      }
+    }>
       {props.children}
     </div>
   );

@@ -18,8 +18,18 @@ const DeleteModal = ({modalData, onClose}) => {
 
     fetch(`http://localhost:3000/devices/${id}`, {method: 'DELETE'});
 
-    const newServerInformationState = serverInformationState.serverInformation.filter((serverInfo) => serverInfo.id !== id);
-    serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.DELETE, data: {serverInformationState: newServerInformationState}});
+    const newServerInformation = serverInformationState.serverInformation.filter((serverInfo) => serverInfo.id !== id);
+    const newFilteredServerInformation = serverInformationState.filteredServerInformation.filter((serverInfo) => serverInfo.id !== id);
+
+    serverInformationDispatch(
+        {
+          type: SERVER_INFORMATION_ACTIONS.DELETE,
+          data: {
+            serverInformation: newServerInformation,
+            filteredServerInformation: newFilteredServerInformation
+          }
+        }
+    );
     modalDispatch({type: MODAL_ACTIONS.CLOSE_MODAL});
   };
 
