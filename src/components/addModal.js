@@ -54,7 +54,9 @@ const AddModal = ({onClose}) => {
           body: JSON.stringify(newUpdateData)
         })
         .then((response) => response.json())
-        .then((data) => serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.ADD, data: data}));
+        .then((data) => {
+          serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.ADD, data: data});
+        });
 
     modalDispatch({type: MODAL_ACTIONS.CLOSE_MODAL});
   };

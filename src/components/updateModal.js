@@ -29,6 +29,17 @@ const UpdateModal = ({modalData, onClose}) => {
   } = useDashboardContext();
 
   const updateServerInformationData = (id) => {
+    const newFilteredData = serverInformationState.filteredServerInformation.map(
+        (serverInfo) => serverInfo.id === id ?
+          {
+            ...serverInfo,
+            system_name: values.title,
+            type: currentDropdownValue,
+            hdd_capacity: values.metadata
+          } :
+          serverInfo
+    );
+
     const newData = serverInformationState.serverInformation.map(
         (serverInfo) => serverInfo.id === id ?
           {
@@ -39,8 +50,9 @@ const UpdateModal = ({modalData, onClose}) => {
           } :
           serverInfo
     );
+
     serverInformationDispatch(
-        {type: SERVER_INFORMATION_ACTIONS.UPDATE, data: newData}
+        {type: SERVER_INFORMATION_ACTIONS.UPDATE, filteredData: newFilteredData, newData: newData}
     );
   };
 
@@ -72,6 +84,7 @@ const UpdateModal = ({modalData, onClose}) => {
           headers: {'Content-Type': 'application/json'},
           body: JSON.stringify(newUpdateData)
         });
+
     updateServerInformationData(modalData.id);
     modalDispatch({type: MODAL_ACTIONS.CLOSE_MODAL});
   };

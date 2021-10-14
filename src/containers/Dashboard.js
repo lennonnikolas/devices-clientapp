@@ -1,5 +1,6 @@
 /* eslint-disable max-len */
 import React, {useState, useEffect} from 'react';
+import {useDashboardContext} from '../contexts/DashboardContext';
 
 import Card from '../components/card';
 import Header from '../components/header';
@@ -11,7 +12,6 @@ import {MODAL_ACTIONS, SERVER_INFORMATION_ACTIONS} from '../actions';
 import {SORT_OPTIONS} from '../constants';
 
 import '../css/dashboard.css';
-import {useDashboardContext} from '../contexts/DashboardContext';
 
 const Dashboard = () => {
   const {
@@ -21,7 +21,6 @@ const Dashboard = () => {
   } = useDashboardContext();
 
   const {
-    serverInformation,
     loading,
     filterDropdownOptions,
     filteredServerInformation
@@ -50,40 +49,26 @@ const Dashboard = () => {
   const handleSelect = (event) => {
     const dropdownValue = event.target.value;
     setFilterDropdownValue(dropdownValue);
-
-    const newData = dropdownValue !== '' ?
-      serverInformation.filter(
-          (serverInfo) => serverInfo.type === dropdownValue) :
-      serverInformation;
-
-    serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.UPDATE, data: newData});
+    serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.FILTER, filterValue: dropdownValue});
   };
 
   const handleSort = (event) => {
     const dropdownValue = event.target.value;
+    let sortType = '';
     setSortDropdownValue(dropdownValue);
-
-    if (dropdownValue === SORT_OPTIONS.SYSTEM_NAME) {
-      filteredServerInformation.sort((firstInfo, secondInfo) => {
-        const firstSystemName = firstInfo.system_name.toLowerCase();
-        const secondSystemName = secondInfo.system_name.toLowerCase();
-
-        if (firstSystemName < secondSystemName) {
-          return -1;
-        } else if (firstSystemName > secondSystemName) {
-          return 1;
-        } else {
-          return 0;
-        }
-      });
+    if (dropdownValue === 'System Name') {
+      sortType = 'system_name';
     }
 
-    if (dropdownValue === SORT_OPTIONS.HDD_CAPACITY) {
-      filteredServerInformation.sort(
-          (firstInfo, secondInfo) =>
-            firstInfo.hdd_capacity - secondInfo.hdd_capacity
-      );
+    if (dropdownValue === 'HDD Capacity') {
+      sortType = 'hdd_capacity';
     }
+
+    if (dropdownValue === '') {
+      return sortType;
+    }
+
+    serverInformationDispatch({type: SERVER_INFORMATION_ACTIONS.SORT, sortType: sortType, sortValue: dropdownValue});
   };
 
   const handleCardButtonClick = (event, cardData, modalType) => {
@@ -107,7 +92,9 @@ const Dashboard = () => {
           currentValue={currentSortDropdownValue}
         />
         <div>
-          <button className='add-server-button' onClick={(event) => handleCardButtonClick(event, null, 'Add')}>Add Server</button>
+          <button className='add-server-button' onClick={(event) => handleCardButtonClick(event, null, 'Add')}>
+            Add Server
+          </button>
         </div>
       </div>
       <Body>
